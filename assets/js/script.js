@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // save values to localstorage
     $(".saveBtn").on("click", function () {
         var time = $(this).parent().attr("id");
         var text = $(this).siblings(".description").val();
@@ -6,16 +7,16 @@ $(document).ready(function () {
     });
 
     function timeTracker() {
-        var timeNow = moment().hour();
+        var time = moment().hour();
         $(".time-block").each(function () {
-            var blockTime = parseInt($(this).attr("id").split("hour")[1]);
+            var block = parseInt($(this).attr("id").split("hour")[1]);
 
-            if (blockTime < timeNow) {
+            if (block < time) {
                 $(this).removeClass("future");
                 $(this).removeClass("present");
                 $(this).addClass("past");
             }
-            else if (blockTime === timeNow) {
+            else if (block === time) {
                 $(this).removeClass("past");
                 $(this).removeClass("future");
                 $(this).addClass("present");
@@ -28,6 +29,7 @@ $(document).ready(function () {
         });
     }
 
+    // load values from localstorage to hardcoded timeblocks
     $("#hour8 .description").val(localStorage.getItem("hour8"));
     $("#hour9 .description").val(localStorage.getItem("hour9"));
     $("#hour10 .description").val(localStorage.getItem("hour10"));
@@ -40,12 +42,14 @@ $(document).ready(function () {
     $("#hour17 .description").val(localStorage.getItem("hour17"));
 
     timeTracker();
-})
 
+// generate time
 function generateDate() {
     var timeEl = document.querySelector("#currentDay");
-    var localTime = moment().format('dddd, MMM Do YYYY');
+    var localTime = moment().format('dddd, MMM Do YYYY - HH:mm:ss');
     timeEl.textContent = localTime;
 }
 
 generateDate();
+
+})
